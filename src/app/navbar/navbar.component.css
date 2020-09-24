@@ -1,0 +1,8 @@
+.collapse{
+    margin-left: 53%;
+    padding-left: 37px;
+    font-size: 19px;
+}
+a{ color: white; text-transform: capitalize; }
+.navbar{ background-color: #0abae1; border-radius: 2px; padding: 17px; }
+.navbar-brand{ background-color: white; color: black; font-weight: 600; border: none;margin-left: 91px; }
