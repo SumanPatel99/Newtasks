@@ -23,6 +23,7 @@ export class ProfileComponent implements OnInit {
     this.userService.getUser("user", id).subscribe(res => {
       // console.log(res);
       this.profile = res;
+      console.log(this.profile)
     })
   }
 
@@ -44,7 +45,15 @@ export class ProfileComponent implements OnInit {
         this.getUserdata(this.id)
       }
     )
-
+    
+  }
+  profileUpdate(id){
+    console.log(id)
+    this.userService.getUser("user", id).subscribe(res => {
+      // console.log(res);
+      this.profile = res;
+      console.log(this.profile)
+    })
   }
 
 }

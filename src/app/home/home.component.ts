@@ -7,6 +7,8 @@ import { HeroService } from '../hero.service';
 import { AuthService } from '../auth.service';
 import {COMMA, ENTER} from '@angular/cdk/keycodes';
 import {MatChipInputEvent} from '@angular/material/chips';
+import { Ng2ImgMaxService } from 'ng2-img-max';
+import { ResizeOptions, ImageResult} from 'ng2-imageupload'
 
 export interface Fruit {
   name: string;
@@ -36,7 +38,7 @@ export class HomeComponent implements OnInit {
   isCompany = false;
 
   selectedImage;
-
+  uploadedImage: File;
 
   visible = true;
   selectable = true;
@@ -47,26 +49,33 @@ export class HomeComponent implements OnInit {
     
   ];
 
+  resizeOptions: ResizeOptions= {
+    resizeMaxHeight: 310,
+    resizeMaxWidth: 325
+
+  }
+
   public profile = false
   public formdata = true
   registerForm: FormGroup;
 
-  constructor(private frm: FormBuilder, private Hero: HeroService, private Auth: AuthService, private router: Router) {
+  constructor(private frm: FormBuilder, private Hero: HeroService, private Auth: AuthService, private router: Router,  private restrictImg:Ng2ImgMaxService) {
     this.registerForm = this.frm.group({
       firstname: ['', [Validators.required, Validators.minLength(2), Validators.maxLength(20),Validators.pattern('^[a-zA-Z \-\']+')]],
       lastname: ['', Validators.required],
-      number: ['', [Validators.required, Validators.minLength(10)]],
+      number: ['', [Validators.required, Validators.minLength(10), Validators.maxLength(10)]],
       age: [20, Validators.required],
       email: ['', [Validators.required, Validators.email, Validators.minLength(6), Validators.maxLength(20)]],
-      address1: [''],
-      address2: [''],
-      companyAddress1: [''],
-      companyAddress2: [''],
+      address1: ['',[Validators.required]],
+      address2: ['', Validators.required],
+      companyAddress1: ['',Validators.required],
+      companyAddress2: ['', Validators.required],
       city: ['', Validators.required],
       state: ['', Validators.required],
       country: ['', Validators.required],
-      tags:[''],
-      subscribe: [false]
+      tags:['',Validators.required],
+      subscribe: [false],
+      image: this.selectedImage ? this.selectedImage : null
     })
   }
 
@@ -117,16 +126,41 @@ export class HomeComponent implements OnInit {
     )
   }
 
+  // window.URL = window.URL || window.webkitURL;
 
-  selectedFile(event) {
+  selectedFile(event,imageResult: ImageResult) {
+    console.log(event.target.files[0].size == 325 * 310,event.target.files[0].size)
     let me = this;
     let file = event.target.files[0];
     let reader = new FileReader();
-    reader.readAsDataURL(file);
-    reader.onload = function(){
-      // console.log(reader.result)
-      me.selectedImage = reader.result;
-    }
+   
+    if (event.target.files && event.target.files.length > 0) {
+      let file = event.target.files[0];
+    
+      let img = new Image();
+    
+      img.src = window.URL.createObjectURL( file );
+      reader.readAsDataURL(file);
+      reader.onload = () => {
+        setTimeout(() => {
+          const width = img.naturalWidth;
+          const height = img.naturalHeight;
+    
+          window.URL.revokeObjectURL( img.src );
+          console.log(width + '*' + height);
+          if ( width !== 325 && height !== 310 ) {
+            alert('photo should be 325 * 310 size');
+            this.registerForm.reset();
+          } else {
+            this.selectedImage = reader.result;
+          }
+        }, 200);
+          };
+    // let imaguplo:any = img.src
+    // imaguplo = imageResult.resized && imageResult.resized.dataURL || imageResult.dataURL
+    // console.log(imaguplo,"hhh")
+  
+        }
   }
 
   Register(form) {
@@ -135,7 +169,7 @@ export class HomeComponent implements OnInit {
     this.Hero.postdata("user",user).subscribe(
       (response)=>{
         this.closeBtn.nativeElement.click();
-        // console.log(response)
+        console.log(response)
         this.router.navigate(['profile/' + response.id]);
       }
     )

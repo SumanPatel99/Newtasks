@@ -1,20 +1,21 @@
 <div class="container">
     <div class="col-md-4">
-        <img class="img" [src]="profile?.image" ><br><br>
+        <img class="img" [src]="profile?.image"><br><br>
         <div>
-            <input type="file" #imagefile (change)="selectedFile($event)" accept="image/*"
-            class="form-control-file" hidden>
+            <input type="file" #imagefile (change)="selectedFile($event)" accept="image/*" class="form-control-file"
+                hidden>
             <button type="button" (click)="imagefile.click()" class="btn btn-primary">Edit photo</button>
-            <button type="button" class="btn btn-primary">Edit profile</button>
+            <button type="button" (click)="profileUpdate(id)" class="btn btn-primary">Edit profile</button>
+
         </div>
     </div>
-    <div class="col-md-8">
-        <p>
-            I'm {{profile?.firstname}} {{profile?.lastname}} and Im above {{profile?.age}} years and you can send
-            your emails to <span>{{profile?.email}}</span>.
-            I live in state of {{profile?.state}}. I like to play {{profile?.tags}}. And please send me
-            newsletters. please reach out to me on my phone {{profile?.mobile}}
-        </p><br>
-        <button class="btn btn-success">I accept</button>
+        <div class="col-md-8">
+            <p>
+                I'm {{profile?.firstname}} {{profile?.lastname}} and Im above {{profile?.age}} years and you can send
+                your emails to <span>{{profile?.email}}</span>.
+                I live in state of {{profile?.state}}. I like to play {{profile?.tags}}. And please send me
+                newsletters. please reach out to me on my phone {{profile?.mobile}}
+            </p><br>
+            <button class="btn btn-success">I accept</button>
+        </div>
     </div>
-</div>

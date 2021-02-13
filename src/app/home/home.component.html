@@ -97,11 +97,11 @@
                     </button>
                 </div>
                 <div class="modal-body">
-                    <form [formGroup]="registerForm" (ngSubmit)="Register(registerForm)">
+                    <form [formGroup]="registerForm" (ngSubmit)="Register()">
                         <div class="col-xl-4 col-lg-4">
                             <div class="form-group">
-                                <label for="exampleFormControlFile1">Choose Image</label>
-                                <input type="file" (change)="selectedFile($event)" accept="image/*"
+                                <label for="exampleFormControlFile1">Choose Image</label><br><br>
+                                <input type="file" (change)="selectedFile($event)" accept="image/*" [resizeOptions]="resizeOptions"
                                     class="form-control-file" id="exampleFormControlFile1">
                             </div>
                         </div>
@@ -117,7 +117,7 @@
                                                 name is required
                                             </span>
                                             <span *ngIf="registerForm.controls['firstname'].hasError('pattern') ">
-                                                Invalid emailId
+                                                Only characters are allowed
                                             </span>
                                             <span *ngIf="registerForm.controls['firstname'].hasError('minlength') ">
                                                 min length is 2
@@ -130,6 +130,12 @@
                                     <div class="col">
                                         <input type="text" formControlName="lastname" class="form-control"
                                             placeholder="Last name" [value]="lastname">
+                                            <div
+                                            *ngIf="registerForm.controls['lastname'].touched && !registerForm.controls['lastname'].valid">
+                                            <span *ngIf="registerForm.controls['lastname'].hasError('required') ">
+                                                name is required
+                                            </span>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
@@ -149,9 +155,9 @@
                                         <span *ngIf="registerForm.controls['email'].hasError('minlength') ">
                                             min length is 6
                                         </span>
-                                        <span *ngIf="registerForm.controls['email'].hasError('maxlength') ">
+                                        <!-- <span *ngIf="registerForm.controls['email'].hasError('maxlength') ">
                                             max length is 20
-                                        </span>
+                                        </span> -->
                                     </div>
                                 </div>
                                 <div class="form-group">
@@ -166,12 +172,21 @@
                                         <span *ngIf="registerForm.controls['number'].hasError('minlength')">
                                             number is 10 digit<br>
                                         </span>
+                                        <span *ngIf="registerForm.controls['number'].hasError('maxlength')">
+                                            number is 10 digit<br>
+                                        </span>
                                     </div>
                                 </div>
                                 <div class="form-group">
                                     <!-- <label for="formControlRange">Age</label> -->
                                     <input type="range" placeholder="Age" class="form-control-range"
                                         id="formControlRange" formControlName="age">
+                                        <div
+                                        *ngIf="registerForm.controls['age'].touched && !registerForm.controls['age'].valid">
+                                        <span *ngIf="registerForm.controls['age'].hasError('required')">
+                                            Age is required<br>
+                                        </span>
+                                    </div>
                                 </div>
 
                             </div>
@@ -189,11 +204,23 @@
                                     <label for="inputAddress1">Address 1</label>
                                     <input type="text" class="form-control" id="inputAddress1"
                                         formControlName="address1">
+                                        <div
+                                        *ngIf="registerForm.controls['address1'].touched && !registerForm.controls['address1'].valid">
+                                        <span *ngIf="registerForm.controls['address1'].hasError('required')">
+                                            Address1 is required<br>
+                                        </span>
+                                    </div>
                                 </div>
                                 <div class="form-group">
                                     <label for="inputAddress2">Address 2</label>
                                     <input type="text" class="form-control" id="inputAddress2"
                                         formControlName="address2">
+                                        <div
+                                        *ngIf="registerForm.controls['address2'].touched && !registerForm.controls['address2'].valid">
+                                        <span *ngIf="registerForm.controls['address2'].hasError('required')">
+                                            Address2 is required<br>
+                                        </span>
+                                    </div>
                                 </div>
                             </span>
                             <span *ngIf="isCompany">
@@ -201,11 +228,23 @@
                                     <label for="inputAddress3">Company Address 1</label>
                                     <input type="text" class="form-control" id="inputAddress3"
                                         formControlName="companyAddress1">
+                                        <div
+                                        *ngIf="registerForm.controls['companyAddress1'].touched && !registerForm.controls['companyAddress1'].valid">
+                                        <span *ngIf="registerForm.controls['CompanyAddress1'].hasError('required')">
+                                           Company Address1 is required<br>
+                                        </span>
+                                    </div>
                                 </div>
                                 <div class="form-group">
                                     <label for="inputAddress4">Company Address 2</label>
                                     <input type="text" class="form-control" id="inputAddress4"
                                         formControlName="companyAddress2">
+                                        <div
+                                        *ngIf="registerForm.controls['companyAddress2'].touched && !registerForm.controls['companyAddress2'].valid">
+                                        <span *ngIf="registerForm.controls['companyAddress2'].hasError('required')">
+                                           Company Address2 is required<br>
+                                        </span>
+                                    </div>
                                 </div>
                             </span>
                             <div class="form-row">
@@ -213,6 +252,12 @@
                                     <!-- <label for="inputCity">City</label> -->
                                     <input type="text" formControlName="city" placeholder="City"
                                         class="form-control city" id="inputCity">
+                                        <div
+                                        *ngIf="registerForm.controls['city'].touched && !registerForm.controls['city'].valid">
+                                        <span *ngIf="registerForm.controls['city'].hasError('required')">
+                                           City is required<br>
+                                        </span>
+                                    </div>
                                 </div>
                                 <div class="form-group">
                                     <div class="row">
@@ -220,24 +265,36 @@
                                             <label for="inputState">State</label>
                                             <select id="inputState" placeholder="State" class="form-control"
                                                 formControlName="state">
-                                                <option selected>Choose...</option>
+                                                <option selected disabled>Choose...</option>
                                                 <option>Maharashtra</option>
                                                 <option>Hyderabad</option>
                                                 <option>Delhi</option>
                                                 <option>Varanasi</option>
                                                 <option>Pune</option>
                                             </select>
+                                            <div
+                                        *ngIf="registerForm.controls['state'].touched && !registerForm.controls['state'].valid">
+                                        <span *ngIf="registerForm.controls['state'].hasError('required')">
+                                           state is required<br>
+                                        </span>
+                                    </div>
 
                                         </div>
                                         <div class="col">
                                             <label for="inputState">Country</label>
                                             <select id="inputState" placeholder="Country" class="form-control"
                                                 formControlName="country">
-                                                <option selected>Choose...</option>
+                                                <option selected disabled>Choose...</option>
                                                 <option>India</option>
                                                 <option>USA</option>
                                                 <option>France</option>
                                             </select>
+                                            <div
+                                        *ngIf="registerForm.controls['country'].touched && !registerForm.controls['country'].valid">
+                                        <span *ngIf="registerForm.controls['country'].hasError('required')">
+                                           Country is required<br>
+                                        </span>
+                                    </div>
                                         </div>
                                     </div>
                                 </div>
@@ -245,7 +302,7 @@
                             <div class="form-group">
                                 <mat-form-field class="example-chip-list">
                                     <mat-chip-list #chipList aria-label="Tags selection">
-                                        <input placeholder="Tags" formControlName="tags" [matChipInputFor]="chipList"
+                                        <input placeholder="Enter games you play" formControlName="tags" [matChipInputFor]="chipList"
                                             [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
                                             [matChipInputAddOnBlur]="addOnBlur"
                                             (matChipInputTokenEnd)="add($event)"><br>
@@ -259,6 +316,12 @@
 
                                     </mat-chip-list>
                                 </mat-form-field>
+                                <div
+                                        *ngIf="registerForm.controls['tags'].touched && !registerForm.controls['tags'].valid">
+                                        <span *ngIf="registerForm.controls['tags'].hasError('required')">
+                                           Tags is required<br>
+                                        </span>
+                                    </div>
                             </div>
                             <div class="form-group">
                                 <div class="form-check">
@@ -272,7 +335,7 @@
                         </div>
                         <div class="modal-footer">
                             <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                            <button type="submit" class="btn btn-primary">Submit</button>
+                            <button type="submit" class="btn submitbtn" >Submit</button>
                         </div>
                         <!-- <button type="submit" class="btn btn-primary">Submit</button> -->
                     </form>

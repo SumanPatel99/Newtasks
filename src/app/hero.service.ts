@@ -14,7 +14,7 @@ export class HeroService {
   getdata(record) {
     // console.log(record)
     let finalurl = this.url + record
-    // console.log(finalurl)
+    console.log(finalurl)
     return this.Http.get(finalurl)
   }
 
@@ -22,7 +22,7 @@ export class HeroService {
     // console.log(record)
     // console.log(data_fromuser)
     let finalurl = this.url + record
-    // console.log(finalurl)
+    console.log(finalurl)
     return this.Http.post(finalurl, data_fromuser)
   }
 

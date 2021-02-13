@@ -12,6 +12,8 @@ import { from } from 'rxjs';
 import { ProfileComponent } from './profile/profile.component';
 import { NavbarComponent } from './navbar/navbar.component';
 import { MatChipsModule } from '@angular/material/chips';
+import { Ng2ImgMaxModule } from 'ng2-img-max'
+import { ImageUploadModule } from 'ng2-imageupload'
 
 
 @NgModule({
@@ -25,7 +27,7 @@ import { MatChipsModule } from '@angular/material/chips';
   imports: [
     BrowserModule,
     AppRoutingModule,ReactiveFormsModule,FormsModule,HttpClientModule,
-    MatChipsModule
+    MatChipsModule,Ng2ImgMaxModule,ImageUploadModule
   ],
   providers: [],
   bootstrap: [AppComponent]

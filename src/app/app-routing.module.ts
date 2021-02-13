@@ -11,6 +11,7 @@ const routes: Routes = [
   component: HomeComponent
 },
 { path:'profile/:id', component:ProfileComponent},
+{ path:'home/edit/:id', component:HomeComponent},
 { path:'', redirectTo: 'home', pathMatch: 'full'},
 { path:'**', redirectTo: 'home', pathMatch: 'full'}
 
